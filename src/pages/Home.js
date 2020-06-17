@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Logo from "../images/Logo.svg";
 import PersonWithNotes from "../images/PersonWithNotes.svg";
+import LocalCafeOutlinedIcon from "@material-ui/icons/LocalCafeOutlined";
+
+import { TweenMax, Power3 } from "gsap";
 
 const useStyles = makeStyles({
   landingContainer: {
@@ -48,10 +51,10 @@ const useStyles = makeStyles({
 
     "& img": {
       width: "40%",
+      opacity: 0,
     },
 
     "@media (max-width: 800px)": {
-      border: "1px solid red",
       flexDirection: "column-reverse",
       textAlign: "center",
       "& img": {
@@ -80,6 +83,7 @@ const useStyles = makeStyles({
   navLinks: {
     display: "flex",
     flexDirection: "column",
+
     width: "100%",
 
     "& a": {
@@ -99,6 +103,8 @@ const useStyles = makeStyles({
       color: "white",
       height: "50px",
       transition: "ease-in 0.2s",
+      fontSize: "1.2rem",
+      fontWeight: 700,
 
       "&:hover": {
         cursor: "pointer",
@@ -108,16 +114,72 @@ const useStyles = makeStyles({
       },
     },
   },
+  patreon: {
+    textDecoration: "none",
+    width: "200px",
+    marginRight: "5%",
+    marginBottom: "4%",
+
+    "@media (max-width: 800px)": {
+      margin: "0 auto",
+    },
+
+    "& button": {
+      width: "100%",
+      border: "1px solid #F96854",
+      background: "none",
+      color: "white",
+      height: "50px",
+      transition: "ease-in 0.2s",
+      fontSize: "1.2rem",
+      fontWeight: 700,
+
+      "&:hover": {
+        cursor: "pointer",
+        background: "#F96854",
+
+        border: "none",
+        width: "150%",
+      },
+    },
+  },
 });
 
-const Header = () => {
+const Home = () => {
   const classes = useStyles();
+
+  let logoItem = useRef(null);
+  let headerText = useRef(null);
+
+  useEffect(() => {
+    TweenMax.to(logoItem, 0.8, {
+      opacity: 1,
+      y: 20,
+      ease: Power3.easeIn,
+    });
+    TweenMax.to(logoItem, 0.8, {
+      x: 40,
+      ease: Power3.easeIn,
+    });
+
+    TweenMax.from(headerText, 0.8, {
+      opacity: 0,
+      ease: Power3.easeIn,
+    });
+  }, []);
+
   return (
     <div className={classes.landingContainer}>
       <img src={Logo} alt="Quick Notes" />
       <div className={classes.landingContent}>
         <div className={classes.contentLeft}>
-          <h1>Take notes easily with QuickNote</h1>
+          <h1
+            ref={(el) => {
+              headerText = el;
+            }}
+          >
+            Take notes easily with QuickNote.
+          </h1>
           <p>
             QuickNote is a quick and easy solution to the many note taking
             applications you are currently signed up for. Here you just need to
@@ -131,9 +193,26 @@ const Header = () => {
             <Link to="/register">
               <button>Sign Up</button>
             </Link>
+            <Link to="#" className={classes.patreon}>
+              <button
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                Buy Me A Coffee <LocalCafeOutlinedIcon />
+              </button>
+            </Link>
           </div>
         </div>
-        <img src={PersonWithNotes} alt="Person taking notes" />
+        <img
+          src={PersonWithNotes}
+          alt="Person taking notes"
+          ref={(el) => {
+            logoItem = el;
+          }}
+        />
       </div>
       <footer>
         <p>Nathaniel Richards 2020</p>
@@ -145,4 +224,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Home;
