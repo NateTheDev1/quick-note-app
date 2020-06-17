@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="346.281" height="74" viewBox="0 0 346.281 74">
+  <g id="Logo" transform="translate(-348 -12.203)">
+    <text id="QuickNote" transform="translate(348 70.203)" fill="#fff" font-size="54" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">QuickNote</tspan></text>
+    <g id="note-24px" transform="translate(622.551 14.473)">
+      <path id="Path_1" data-name="Path 1" d="M0,0H71.73V71.73H0Z" fill="none"/>
+      <path id="Path_2" data-name="Path 2" d="M61.775,21.932,43.842,4H7.977A6,6,0,0,0,2,9.977V45.872A5.969,5.969,0,0,0,7.977,51.82l47.82-.03a5.969,5.969,0,0,0,5.977-5.948ZM40.854,8.483,57.292,24.921H40.854Z" transform="translate(3.977 7.955)" fill="#fff"/>
+    </g>
+  </g>
+</svg>
