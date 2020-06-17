@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, TextField, Button, Link } from "@material-ui/core";
+
 import Logo from "../images/Logo.svg";
 
 const useStyles = makeStyles({
@@ -97,6 +98,18 @@ const useStyles = makeStyles({
 });
 
 const Register = () => {
+
+  const [formValues, setFormValues] = useState({
+    name: '',
+    email: '',
+    password: ''
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(formValues)
+  }
+
   const classes = useStyles();
   return (
     <div className={classes.registerRoot}>
@@ -111,30 +124,35 @@ const Register = () => {
         </div>
       </div>
       <div className={classes.right}>
-        <form>
+        <form onSubmit={handleSubmit}>
           <h2>Sign Up</h2>
           <TextField
             variant="filled"
             label="Full Name"
             placeholder="John Doe"
+            required
+            inputProps={{ minLength: 5, maxLength: 20 }} 
           />
           <TextField
-            type="email"
             variant="filled"
             label="Email"
             placeholder="johndoe@email.com"
+            required
+            type='email'
+            inputProps={{ maxLength: 20 }} 
           />
           <TextField
             type="password"
             variant="filled"
             label="Password"
+            required
             placeholder="******"
+            inputProps={{ minLength: 6 }} 
           />
           <Link href="/login" underline="hover">
             Already Have An Account?
           </Link>
-
-          <Button variant="outlined">Get Started</Button>
+          <Button variant="outlined" type='submit'>Get Started</Button>
         </form>
       </div>
     </div>
