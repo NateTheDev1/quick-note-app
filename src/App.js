@@ -13,6 +13,9 @@ class App extends React.Component {
         <Route exact path="/register">
           <Register />
         </Route>
+        <Route exact path='/login'>
+          <h1>Login</h1>
+        </Route>
       </Switch>
     );
   }
