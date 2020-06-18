@@ -1,12 +1,13 @@
 import React, { useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Logo from "../images/Logo.svg";
 import PersonWithNotes from "../images/PersonWithNotes.svg";
 import LocalCafeOutlinedIcon from "@material-ui/icons/LocalCafeOutlined";
-import {Link as MLink} from '@material-ui/core'
+import { Link as MLink } from "@material-ui/core";
 
 import { TweenMax, Power3 } from "gsap";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles({
   landingContainer: {
@@ -146,8 +147,9 @@ const useStyles = makeStyles({
   },
 });
 
-const Home = () => {
+const Home = (props) => {
   const classes = useStyles();
+  const history = useHistory();
 
   let logoItem = useRef(null);
   let headerText = useRef(null);
@@ -168,6 +170,11 @@ const Home = () => {
       ease: Power3.easeIn,
     });
   }, []);
+
+  if (props.user !== null) {
+    console.log(props.user);
+    history.push("/home");
+  }
 
   return (
     <div className={classes.landingContainer}>
@@ -194,7 +201,12 @@ const Home = () => {
             <Link to="/register">
               <button>Sign Up</button>
             </Link>
-            <MLink style={{textDecoration: 'none'}} href="https://www.patreon.com/NateTheDev" target='_none' className={classes.patreon}>
+            <MLink
+              style={{ textDecoration: "none" }}
+              href="https://www.patreon.com/NateTheDev"
+              target="_none"
+              className={classes.patreon}
+            >
               <button
                 style={{
                   display: "flex",
@@ -225,4 +237,10 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    user: state.authReducer.user,
+  };
+};
+
+export default connect(mapStateToProps, null)(Home);
