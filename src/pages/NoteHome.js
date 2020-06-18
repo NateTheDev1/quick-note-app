@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import Logo from "../images/Logo.svg";
 import {makeStyles, AppBar, Toolbar, Button} from '@material-ui/core'
 import NoteList from './NoteList';
+import {logout} from '../actions/authActions'
 
 //    background: "rgba(255,255,255, 0.7)",
 
@@ -83,30 +84,32 @@ const NoteHome = (props) => {
     const history = useHistory()
     const classes = useStyles()
 
-    // if(props.auth === false) {
-    //     history.push('/login')   
-    // }
+    if(props.auth === false) {
+        history.push('/login')   
+    }
+
+    const handleLogout = e => {
+        const res = props.logout()
+    }
 
     return (
         <div className={classes.root}>
             <AppBar position='static' elevation={3}>
                 <Toolbar className={classes.header}>
                 <img src={Logo} alt="Quick Notes" />
-                <Button>Logout</Button>
+                <Button onClick={handleLogout}>Logout</Button>
                 </Toolbar>
             </AppBar>
-            {/* {props.user !== null && ( */}
+            {props.user !== null && (
                 <div className={classes.content}>
-                                {/* TESTING ON = COMMENT OUT USER CHECK */}
                     <div className={classes.welcome}>
-                        {/* <h1>Hello {props.user.name}, here are your notes</h1> */}
-                        <h1>Hello Nathaniel, here are your notes</h1>
+                        <h1>Hello {props.user.name}, here are your notes</h1>
                         <p>Here you can create, edit, and update notes on your QuickNote Dashboard.</p>
                         <hr />
                         <NoteList />
                     </div>
                 </div>
-            {/* )} */}
+            )}
         </div>
     )
 }
@@ -118,4 +121,4 @@ const mapStateToProps = state => {
     }
   }
 
-export default connect(mapStateToProps, {})(NoteHome)
+export default connect(mapStateToProps, {logout})(NoteHome)

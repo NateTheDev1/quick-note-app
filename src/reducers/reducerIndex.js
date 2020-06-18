@@ -1,4 +1,5 @@
 import authReducer from './authReducer'
+import noteReducer from './noteReducer'
 import { combineReducers } from 'redux'
 import { LOADING } from '../actions/types'
 
@@ -13,7 +14,7 @@ const globalReducer = (state = initialState, action) => {
     }
 }
 
-const reducerIndex = combineReducers({authReducer, globalReducer})
+const reducerIndex = combineReducers({authReducer, globalReducer, noteReducer})
 
 
 export default reducerIndex
