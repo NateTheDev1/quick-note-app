@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Logo from "../images/Logo.svg";
 import PersonWithNotes from "../images/PersonWithNotes.svg";
 import LocalCafeOutlinedIcon from "@material-ui/icons/LocalCafeOutlined";
+import {Link as MLink} from '@material-ui/core'
 
 import { TweenMax, Power3 } from "gsap";
 
@@ -193,7 +194,7 @@ const Home = () => {
             <Link to="/register">
               <button>Sign Up</button>
             </Link>
-            <Link to="#" className={classes.patreon}>
+            <MLink style={{textDecoration: 'none'}} href="https://www.patreon.com/NateTheDev" target='_none' className={classes.patreon}>
               <button
                 style={{
                   display: "flex",
@@ -203,7 +204,7 @@ const Home = () => {
               >
                 Buy Me A Coffee <LocalCafeOutlinedIcon />
               </button>
-            </Link>
+            </MLink>
           </div>
         </div>
         <img
