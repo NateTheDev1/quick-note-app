@@ -5,8 +5,8 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Logo from "../images/Logo.svg";
 import { connect } from "react-redux";
 
-import {registerUser} from '../actions/authActions'
-import { useHistory, Redirect } from "react-router-dom";
+import {loginUser} from '../actions/authActions'
+import { useHistory } from "react-router-dom";
 
 
 const useStyles = makeStyles({
@@ -103,23 +103,21 @@ const useStyles = makeStyles({
   },
 });
 
-const Register = (props) => {
+const Login = (props) => {
   const history = useHistory()
   const [snackOpen, setSnackOpen] = useState(false)
 
   const [formValues, setFormValues] = useState({
-    name: '',
     email: '',
     password: ''
   })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const res =  await props.registerUser(formValues);
+    const res =  await props.loginUser(formValues);
     console.log(res)
     if(res === 'Ok') {
       setFormValues({
-        name: '',
         email: '',
         password: ''
       })
@@ -145,12 +143,8 @@ const Register = (props) => {
   const classes = useStyles();
 
   if(props.auth === true) {
-     history.push('/home')
-  }
-
-  if(props.user !== null) {
     setTimeout(() => {
-      history.push('/login')
+      history.push('/home')
     }, 1000)
   }
 
@@ -161,16 +155,16 @@ const Register = (props) => {
           <MuiAlert elevation={6} variant='filled' severity='error' onClose={handleSnack}>{props.error}</MuiAlert>
         </Snackbar>
       )}
-      {props.user && (
+      {props.auth && (
         <Snackbar open={true} >
-          <MuiAlert elevation={6} variant='filled' severity='success'>Your account is ready, login!</MuiAlert>
+          <MuiAlert elevation={6} variant='filled' severity='success'>Logged In Succesfully!</MuiAlert>
         </Snackbar>
       )}
       <div className={classes.left}>
         <img src={Logo} alt="Quick Notes" />
         <div className={classes.leftBottom}>
-          <h1>Get Started!</h1>
-          <p>Enter a few details and you're ready to go QuickNote.</p>
+          <h1>Get Back To It!</h1>
+          <p>Enter a few details and you're ready to go back to QuickNote.</p>
           <Link href="/" style={{ marginTop: "3%" }} underline="hover">
             Go Back
           </Link>
@@ -178,18 +172,7 @@ const Register = (props) => {
       </div>
       <div className={classes.right}>
         <form onSubmit={handleSubmit}>
-          <h2>Sign Up</h2>
-          <TextField
-            variant="filled"
-            label="Full Name"
-            placeholder="John Doe"
-            required
-            name='name'
-            value={formValues.name}
-            onChange={handleChange}
-            inputProps={{ minLength: 5, maxLength: 20 }} 
-            disabled={props.authorizing}
-          />
+          <h2>Log In</h2>
           <TextField
           disabled={props.authorizing}
             variant="filled"
@@ -214,10 +197,10 @@ const Register = (props) => {
             inputProps={{ minLength: 6 }} 
             disabled={props.authorizing}
           />
-          <Link href="/login" underline="hover">
-            Already Have An Account?
+          <Link href="/register" underline="hover">
+            Don't Have An Account?
           </Link>
-          <Button variant="outlined" type='submit' disabled={props.authorizing}>Get Started</Button>
+          <Button variant="outlined" type='submit' disabled={props.authorizing}>Login</Button>
         </form>
       </div>
     </div>
@@ -227,13 +210,12 @@ const Register = (props) => {
 
 const mapStateToProps = state => {
   return {
-    user: state.authReducer.user,
+    auth: state.authReducer.auth,
     authorizing: state.authReducer.authorizing,
     error: state.authReducer.error,
-
   }
 }
 
 
 
-export default connect(mapStateToProps, {registerUser})(Register);
+export default connect(mapStateToProps, {loginUser})(Login);

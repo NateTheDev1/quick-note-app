@@ -11,7 +11,7 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOGIN_START: return {...state, authorizing: true}
-        case LOGIN_FAIL: return {...state, error: action.error}
+        case LOGIN_FAIL: return {...state, error: action.error, authorizing: false}
         case LOGIN_OK: return {...state, error: '', auth: true, authorizing: false, token: action.payload}
         case REGISTER_START: return {...state, authorizing: true}
         case REGISTER_FAIL: return {...state, authorizing: false, error: action.error}
