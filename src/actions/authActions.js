@@ -5,13 +5,16 @@
 import axios from 'axios'
 import { REGISTER_START, REGISTER_OK, REGISTER_FAIL } from './types'
 
-const registerUser = (formValues) => dispatch => {
+export const registerUser =  (formValues) =>  dispatch => {
+
+
     dispatch({type: REGISTER_START})
-    axios.post('https://quick-note-api.herokuapp.com/api/user/register', formValues).then(res => {
-        console.log(res.data)
-        dispatch({type: REGISTER_OK, payload: res.data})
-    }).catch(error => {
-        console.log(error)
-        dispatch({type: REGISTER_FAIL, error: error.message})
+
+    console.log('Working')
+    return axios.post('https://quick-note-api.herokuapp.com/api/user/register', formValues).then(async res => {
+        await dispatch({type: REGISTER_OK, payload: res.data})
+    }).catch(async error => {
+        await dispatch({type: REGISTER_FAIL, error: error.response.data})
+        return error.response.data
     })
 }
