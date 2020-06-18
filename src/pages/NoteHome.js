@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import Logo from "../images/Logo.svg";
 import {makeStyles, AppBar, Toolbar, Button} from '@material-ui/core'
+import NoteList from './NoteList';
 
 //    background: "rgba(255,255,255, 0.7)",
 
@@ -72,7 +73,8 @@ const useStyles = makeStyles({
             minWidth: '800px',
             maxWidth: '75%',
             margin: 0,
-            marginTop: '3%'
+            marginTop: '1%',
+            marginBottom: '3%'
         }
     }
 })
@@ -81,9 +83,9 @@ const NoteHome = (props) => {
     const history = useHistory()
     const classes = useStyles()
 
-    if(props.auth === false) {
-        history.push('/login')   
-    }
+    // if(props.auth === false) {
+    //     history.push('/login')   
+    // }
 
     return (
         <div className={classes.root}>
@@ -94,13 +96,14 @@ const NoteHome = (props) => {
                 </Toolbar>
             </AppBar>
             {/* {props.user !== null && ( */}
-            {/* TESTING ON = COMMENT OUT USER CHECK */}
                 <div className={classes.content}>
+                                {/* TESTING ON = COMMENT OUT USER CHECK */}
                     <div className={classes.welcome}>
                         {/* <h1>Hello {props.user.name}, here are your notes</h1> */}
                         <h1>Hello Nathaniel, here are your notes</h1>
-                        <p>Here you can create, edit, and update notes on your QuickNote Dashboard</p>
+                        <p>Here you can create, edit, and update notes on your QuickNote Dashboard.</p>
                         <hr />
+                        <NoteList />
                     </div>
                 </div>
             {/* )} */}
