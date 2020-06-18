@@ -1,7 +1,10 @@
 import axios from 'axios'
 import { connect } from 'react-redux';
 
-const axiosWithAuth = ({token}) => {
+export const axiosWithAuth = () => {
+
+    const token = sessionStorage.getItem('token')
+
     if(token === null) {
         console.error('Token is invalid and equal to NULL')
         return;
