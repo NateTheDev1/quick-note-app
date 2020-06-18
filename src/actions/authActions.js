@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 
 import axios from 'axios'
-import { REGISTER_START, REGISTER_OK, REGISTER_FAIL, LOGIN_START, LOGIN_OK, LOGIN_FAIL, SET_USER } from './types'
+import { LOGOUT, REGISTER_START, REGISTER_OK, REGISTER_FAIL, LOGIN_START, LOGIN_OK, LOGIN_FAIL, SET_USER } from './types'
 
 export const registerUser =  (formValues) =>  dispatch => {
 
@@ -38,4 +38,9 @@ const getUser = async (token, dispatch)  =>  {
     }).catch(err => {
         alert(err.response.data)
     })
+}
+
+export const logout =  () => async dispatch => {
+    await sessionStorage.clear()
+    await dispatch({type: LOGOUT})
 }
