@@ -1,4 +1,4 @@
-import { LOGIN_START, LOGIN_FAIL, LOGIN_OK, REGISTER_START, REGISTER_FAIL, REGISTER_OK } from "../actions/types"
+import { LOGIN_START, LOGIN_FAIL, LOGIN_OK, REGISTER_START, REGISTER_FAIL, REGISTER_OK, SET_USER } from "../actions/types"
 
 const initialState = {
     auth: false,
@@ -16,6 +16,7 @@ const authReducer = (state = initialState, action) => {
         case REGISTER_START: return {...state, authorizing: true}
         case REGISTER_FAIL: return {...state, authorizing: false, error: action.error}
         case REGISTER_OK: return {...state, authorizing: false, error: '', user: action.payload}
+        case SET_USER: return {...state, user: action.payload}
         default: return state
     }
 }

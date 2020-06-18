@@ -40,6 +40,9 @@ const useStyles = makeStyles({
             width: '15%'
         } 
     },
+    content: {
+        paddingLeft: '3%'
+    },
     header: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -48,6 +51,29 @@ const useStyles = makeStyles({
         '& img': {
             width: '15%'
         }
+    },
+    welcome: {
+        marginTop: '3%',
+        flexDirection: 'column',
+        display: 'flex',
+
+        '& h1': {
+            fontSize: '3rem',
+            fontWeight: 500,
+            marginBottom: '1.5%'
+        },
+
+        '& p': {
+            fontSize: '1.2rem',
+            color: '#00BFA6',
+        },
+
+        '& hr': {
+            minWidth: '800px',
+            maxWidth: '75%',
+            margin: 0,
+            marginTop: '3%'
+        }
     }
 })
 
@@ -55,7 +81,7 @@ const NoteHome = (props) => {
     const history = useHistory()
     const classes = useStyles()
 
-    if(props.auth === null) {
+    if(props.auth === false) {
         history.push('/login')   
     }
 
@@ -67,6 +93,17 @@ const NoteHome = (props) => {
                 <Button>Logout</Button>
                 </Toolbar>
             </AppBar>
+            {/* {props.user !== null && ( */}
+            {/* TESTING ON = COMMENT OUT USER CHECK */}
+                <div className={classes.content}>
+                    <div className={classes.welcome}>
+                        {/* <h1>Hello {props.user.name}, here are your notes</h1> */}
+                        <h1>Hello Nathaniel, here are your notes</h1>
+                        <p>Here you can create, edit, and update notes on your QuickNote Dashboard</p>
+                        <hr />
+                    </div>
+                </div>
+            {/* )} */}
         </div>
     )
 }
