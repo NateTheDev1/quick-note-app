@@ -51,7 +51,7 @@ const getUser = async (token, dispatch) => {
     .get(`https://quick-note-api.herokuapp.com/api/user/${uid}`)
     .then((res) => {
       dispatch({ type: SET_USER, payload: res.data });
-      localStorage.setItem("user", res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
     })
     .catch((err) => {
       alert(err.response.data);

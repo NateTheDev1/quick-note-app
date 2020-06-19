@@ -16,7 +16,9 @@ const initialState = {
   token: localStorage.getItem("token") ? localStorage.getItem("token") : null,
   authorizing: false,
   error: "",
-  user: localStorage.getItem("user") ? localStorage.getItem("user") : null,
+  user: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null,
 };
 
 const authReducer = (state = initialState, action) => {
