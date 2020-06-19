@@ -90,9 +90,21 @@ const NoteList = (props) => {
   };
 
   const handleFocus = (note) => {
-    console.log(note);
     setFocusedNote(note);
     setViewOpen(true);
+  };
+
+  const handleDelete = (id) => {
+    axiosWithAuth()
+      .delete(`https://quick-note-api.herokuapp.com/api/notes/${id}`)
+      .then((_) => {
+        fetchNewNotes();
+        setFocusedNote(null);
+        setViewOpen(!viewOpen);
+      })
+      .catch((err) => {
+        alert(err.response.message);
+      });
   };
 
   return (
@@ -102,6 +114,7 @@ const NoteList = (props) => {
           focusedNote={focusedNote}
           viewOpen={viewOpen}
           setViewOpen={setViewOpen}
+          handleDelete={handleDelete}
         />
         <NewNoteDialog
           newOpen={newOpen}
@@ -127,7 +140,12 @@ const NoteList = (props) => {
       {notes.length === 0 ? null : (
         <Grid container spacing={3}>
           {notes.map((n) => (
-            <NoteCard classes={classes} n={n} handleView={handleFocus} />
+            <NoteCard
+              classes={classes}
+              n={n}
+              handleView={handleFocus}
+              key={n._id}
+            />
           ))}
         </Grid>
       )}

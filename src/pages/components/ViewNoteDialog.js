@@ -6,9 +6,45 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  makeStyles,
 } from "@material-ui/core";
 
-const ViewNoteDialog = ({ focusedNote, viewOpen, setViewOpen }) => {
+const useStyles = makeStyles({
+  danger: {
+    color: "white",
+    backgroundColor: "#FF8800",
+    transition: "ease 0.5s",
+
+    "&:hover": {
+      backgroundColor: "#CC0000",
+    },
+  },
+  edit: {
+    color: "white",
+    backgroundColor: "#0099CC",
+    transition: "ease 0.5s",
+
+    "&:hover": {
+      backgroundColor: "#33b5e5",
+    },
+  },
+  close: {
+    color: "white",
+    backgroundColor: "#37474F",
+
+    "&:hover": {
+      backgroundColor: "#3E4551",
+    },
+  },
+});
+
+const ViewNoteDialog = ({
+  focusedNote,
+  viewOpen,
+  setViewOpen,
+  handleDelete,
+}) => {
+  const classes = useStyles();
   return (
     <Dialog
       open={viewOpen}
@@ -29,9 +65,19 @@ const ViewNoteDialog = ({ focusedNote, viewOpen, setViewOpen }) => {
             <p style={{ lineHeight: 2 }}>{focusedNote.content}</p>
           </DialogContent>
           <DialogActions>
-            <Button>Edit</Button>
-            <Button>Delete</Button>
-            <Button onClick={() => setViewOpen(!viewOpen)}>Close</Button>
+            <Button className={classes.edit}>Edit</Button>
+            <Button
+              className={classes.danger}
+              onClick={() => handleDelete(focusedNote._id)}
+            >
+              Delete
+            </Button>
+            <Button
+              onClick={() => setViewOpen(!viewOpen)}
+              className={classes.close}
+            >
+              Close
+            </Button>
           </DialogActions>
         </>
       )}
