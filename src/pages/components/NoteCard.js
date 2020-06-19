@@ -2,6 +2,7 @@ import React from "react";
 import { Fab, Card, Grid, CardContent } from "@material-ui/core";
 import shortenText from "../../helpers/shortenText";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import Moment from "react-moment";
 
 const NoteCard = ({ classes, n, handleView }) => {
   return (
@@ -17,7 +18,9 @@ const NoteCard = ({ classes, n, handleView }) => {
           >
             {n.title}
           </h2>
-          <h2 style={{ color: "gray", fontSize: "1rem" }}>{n.createdAt}</h2>
+          <h2 style={{ color: "gray", fontSize: "1rem" }}>
+            <Moment fromNow>{n.createdAt}</Moment>
+          </h2>
           <p
             style={{
               fontSize: "0.9rem",

@@ -8,6 +8,7 @@ import {
   DialogActions,
   makeStyles,
 } from "@material-ui/core";
+import Moment from "react-moment";
 
 const useStyles = makeStyles({
   danger: {
@@ -61,7 +62,9 @@ const ViewNoteDialog = ({
             {focusedNote.title}
           </DialogTitle>
           <DialogContent>
-            <DialogContentText>{focusedNote.createdAt}</DialogContentText>
+            <DialogContentText>
+              <Moment fromNow>{focusedNote.createdAt}</Moment>
+            </DialogContentText>
             <p style={{ lineHeight: 2 }}>{focusedNote.content}</p>
           </DialogContent>
           <DialogActions>
