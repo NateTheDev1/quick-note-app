@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { makeStyles, TextField, Button, Link, Snackbar } from "@material-ui/core";
-import MuiAlert from '@material-ui/lab/Alert';
+import {
+  makeStyles,
+  TextField,
+  Button,
+  Link,
+  Snackbar,
+} from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 
 import Logo from "../images/Logo.svg";
 import { connect } from "react-redux";
 
-import {registerUser} from '../actions/authActions'
+import { registerUser } from "../actions/authActions";
 import { useHistory, Redirect } from "react-router-dom";
-
 
 const useStyles = makeStyles({
   registerRoot: {
@@ -29,6 +34,10 @@ const useStyles = makeStyles({
     justifyContent: "space-around",
     "& img": {
       width: "30%",
+    },
+
+    "@media (max-width: 1360px)": {
+      display: "none",
     },
   },
   leftBottom: {
@@ -56,6 +65,10 @@ const useStyles = makeStyles({
     color: "black",
     background: "rgba(255,255,255, 0.7)",
     width: "50%",
+
+    "@media (max-width: 1360px)": {
+      width: "100%",
+    },
 
     "& form": {
       margin: "0 auto",
@@ -104,66 +117,81 @@ const useStyles = makeStyles({
 });
 
 const Register = (props) => {
-  const history = useHistory()
-  const [snackOpen, setSnackOpen] = useState(false)
+  const history = useHistory();
+  const [snackOpen, setSnackOpen] = useState(false);
 
   const [formValues, setFormValues] = useState({
-    name: '',
-    email: '',
-    password: ''
-  })
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const res =  await props.registerUser(formValues);
-    console.log(res)
-    if(res === 'Ok') {
+    e.preventDefault();
+    const res = await props.registerUser(formValues);
+    console.log(res);
+    if (res === "Ok") {
       setFormValues({
-        name: '',
-        email: '',
-        password: ''
-      })
+        name: "",
+        email: "",
+        password: "",
+      });
     } else {
-      setSnackOpen(true)
+      setSnackOpen(true);
     }
-  }
+  };
 
   const handleSnack = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
     setSnackOpen(false);
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setFormValues({
-      ...formValues, [e.target.name]: e.target.value
-    })
-  }
+      ...formValues,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const classes = useStyles();
 
-  if(props.auth === true) {
-     history.push('/home')
+  if (props.auth === true) {
+    history.push("/home");
   }
 
-  if(props.user !== null) {
+  if (props.user !== null) {
     setTimeout(() => {
-      history.push('/login')
-    }, 1000)
+      history.push("/login");
+    }, 1000);
   }
 
   return (
     <div className={classes.registerRoot}>
       {props.error && (
-        <Snackbar open={snackOpen} autoHideDuration={3000} onClose={handleSnack} message={props.error}>
-          <MuiAlert elevation={6} variant='filled' severity='error' onClose={handleSnack}>{props.error}</MuiAlert>
+        <Snackbar
+          open={snackOpen}
+          autoHideDuration={3000}
+          onClose={handleSnack}
+          message={props.error}
+        >
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            severity="error"
+            onClose={handleSnack}
+          >
+            {props.error}
+          </MuiAlert>
         </Snackbar>
       )}
       {props.user && (
-        <Snackbar open={true} >
-          <MuiAlert elevation={6} variant='filled' severity='success'>Your account is ready, login!</MuiAlert>
+        <Snackbar open={true}>
+          <MuiAlert elevation={6} variant="filled" severity="success">
+            Your account is ready, login!
+          </MuiAlert>
         </Snackbar>
       )}
       <div className={classes.left}>
@@ -184,56 +212,54 @@ const Register = (props) => {
             label="Full Name"
             placeholder="John Doe"
             required
-            name='name'
+            name="name"
             value={formValues.name}
             onChange={handleChange}
-            inputProps={{ minLength: 5, maxLength: 20 }} 
+            inputProps={{ minLength: 5, maxLength: 20 }}
             disabled={props.authorizing}
           />
           <TextField
-          disabled={props.authorizing}
+            disabled={props.authorizing}
             variant="filled"
             label="Email"
             placeholder="johndoe@email.com"
             required
-            type='email'
-            name='email'
+            type="email"
+            name="email"
             value={formValues.email}
             onChange={handleChange}
-            inputProps={{ minLength: 5, maxLength: 50 }} 
+            inputProps={{ minLength: 5, maxLength: 50 }}
           />
           <TextField
             type="password"
             variant="filled"
             label="Password"
             required
-            name='password'
+            name="password"
             value={formValues.password}
             onChange={handleChange}
             placeholder="******"
-            inputProps={{ minLength: 6 }} 
+            inputProps={{ minLength: 6 }}
             disabled={props.authorizing}
           />
           <Link href="/login" underline="hover">
             Already Have An Account?
           </Link>
-          <Button variant="outlined" type='submit' disabled={props.authorizing}>Get Started</Button>
+          <Button variant="outlined" type="submit" disabled={props.authorizing}>
+            Get Started
+          </Button>
         </form>
       </div>
     </div>
   );
 };
 
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     user: state.authReducer.user,
     authorizing: state.authReducer.authorizing,
     error: state.authReducer.error,
+  };
+};
 
-  }
-}
-
-
-
-export default connect(mapStateToProps, {registerUser})(Register);
+export default connect(mapStateToProps, { registerUser })(Register);

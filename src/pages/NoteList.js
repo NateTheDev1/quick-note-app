@@ -4,19 +4,15 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import {
   makeStyles,
   Grid,
-  Paper,
   Card,
   CardContent,
-  Typography,
-  CardActions,
   Button,
-  Fab,
-  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
+  Fab,
 } from "@material-ui/core";
 import { axiosWithAuth } from "../helpers/axiosWithAuth";
 import AddIcon from "@material-ui/icons/Add";
@@ -27,12 +23,9 @@ import shortenText from "../helpers/shortenText";
 
 const useStyles = makeStyles({
   noteList: {
-    width: "75%",
+    width: "90%",
     marginBottom: "5%",
     justifyContent: "space-around",
-  },
-  item: {
-    height: "325px",
   },
   card: {
     backgroundColor: "rgba(255,255,255, 0.7)",
@@ -40,10 +33,16 @@ const useStyles = makeStyles({
   },
   new: {
     transition: "ease 0.5s",
-
+    textAlign: "center",
+    width: "50%",
+    marginBottom: "5%",
     "&:hover": {
       backgroundColor: "gray !important",
       color: "black",
+    },
+
+    "@media(max-width: 900px)": {
+      width: "100%",
     },
   },
 });
@@ -134,11 +133,7 @@ const NoteList = (props) => {
           </h2>
         )}
         <Link onClick={handleNew} to="#">
-          <Card
-            className={classes.card}
-            style={{ textAlign: "center", width: "50%", marginBottom: "5%" }}
-            className={classes.new}
-          >
+          <Card className={classes.card} className={classes.new}>
             <CardContent>
               <AddIcon style={{ color: "white" }} />
             </CardContent>
@@ -148,7 +143,14 @@ const NoteList = (props) => {
       {notes.length === 0 ? null : (
         <Grid container spacing={3}>
           {notes.map((n) => (
-            <Grid item xs={4} className={classes.item} key={n._id}>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              lg={4}
+              className={classes.item}
+              key={n._id}
+            >
               <Card className={classes.card}>
                 <CardContent>
                   <h2
@@ -172,12 +174,16 @@ const NoteList = (props) => {
                   >
                     {shortenText(`${n.content}`)}
                   </p>
+                  <Fab
+                    variant="extended"
+                    size="medium"
+                    aria-label="View"
+                    style={{ marginTop: "5%" }}
+                  >
+                    <VisibilityOutlinedIcon style={{ marginRight: "10%" }} />
+                    View
+                  </Fab>
                 </CardContent>
-                <CardActions>
-                  <IconButton aria-label="Edit">
-                    <VisibilityOutlinedIcon style={{ color: "white" }} />
-                  </IconButton>
-                </CardActions>
               </Card>
             </Grid>
           ))}

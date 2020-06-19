@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { makeStyles, TextField, Button, Link, Snackbar } from "@material-ui/core";
-import MuiAlert from '@material-ui/lab/Alert';
+import {
+  makeStyles,
+  TextField,
+  Button,
+  Link,
+  Snackbar,
+} from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 
 import Logo from "../images/Logo.svg";
 import { connect } from "react-redux";
 
-import {loginUser} from '../actions/authActions'
+import { loginUser } from "../actions/authActions";
 import { useHistory } from "react-router-dom";
-
 
 const useStyles = makeStyles({
   registerRoot: {
@@ -29,6 +34,9 @@ const useStyles = makeStyles({
     justifyContent: "space-around",
     "& img": {
       width: "30%",
+    },
+    "@media (max-width: 1360px)": {
+      display: "none",
     },
   },
   leftBottom: {
@@ -56,6 +64,10 @@ const useStyles = makeStyles({
     color: "black",
     background: "rgba(255,255,255, 0.7)",
     width: "50%",
+
+    "@media (max-width: 1360px)": {
+      width: "100%",
+    },
 
     "& form": {
       margin: "0 auto",
@@ -104,60 +116,75 @@ const useStyles = makeStyles({
 });
 
 const Login = (props) => {
-  const history = useHistory()
-  const [snackOpen, setSnackOpen] = useState(false)
+  const history = useHistory();
+  const [snackOpen, setSnackOpen] = useState(false);
 
   const [formValues, setFormValues] = useState({
-    email: '',
-    password: ''
-  })
+    email: "",
+    password: "",
+  });
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const res =  await props.loginUser(formValues);
-    console.log(res)
-    if(res === 'Ok') {
+    e.preventDefault();
+    const res = await props.loginUser(formValues);
+    console.log(res);
+    if (res === "Ok") {
       setFormValues({
-        email: '',
-        password: ''
-      })
+        email: "",
+        password: "",
+      });
     } else {
-      setSnackOpen(true)
+      setSnackOpen(true);
     }
-  }
+  };
 
   const handleSnack = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
     setSnackOpen(false);
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setFormValues({
-      ...formValues, [e.target.name]: e.target.value
-    })
-  }
+      ...formValues,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const classes = useStyles();
 
-  if(props.auth === true) {
+  if (props.auth === true) {
     setTimeout(() => {
-      history.push('/home')
-    }, 1000)
+      history.push("/home");
+    }, 1000);
   }
 
   return (
     <div className={classes.registerRoot}>
       {props.error && (
-        <Snackbar open={snackOpen} autoHideDuration={3000} onClose={handleSnack} message={props.error}>
-          <MuiAlert elevation={6} variant='filled' severity='error' onClose={handleSnack}>{props.error}</MuiAlert>
+        <Snackbar
+          open={snackOpen}
+          autoHideDuration={3000}
+          onClose={handleSnack}
+          message={props.error}
+        >
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            severity="error"
+            onClose={handleSnack}
+          >
+            {props.error}
+          </MuiAlert>
         </Snackbar>
       )}
       {props.auth && (
-        <Snackbar open={true} >
-          <MuiAlert elevation={6} variant='filled' severity='success'>Logged In Succesfully!</MuiAlert>
+        <Snackbar open={true}>
+          <MuiAlert elevation={6} variant="filled" severity="success">
+            Logged In Succesfully!
+          </MuiAlert>
         </Snackbar>
       )}
       <div className={classes.left}>
@@ -174,48 +201,47 @@ const Login = (props) => {
         <form onSubmit={handleSubmit}>
           <h2>Log In</h2>
           <TextField
-          disabled={props.authorizing}
+            disabled={props.authorizing}
             variant="filled"
             label="Email"
             placeholder="johndoe@email.com"
             required
-            type='email'
-            name='email'
+            type="email"
+            name="email"
             value={formValues.email}
             onChange={handleChange}
-            inputProps={{ minLength: 5, maxLength: 50 }} 
+            inputProps={{ minLength: 5, maxLength: 50 }}
           />
           <TextField
             type="password"
             variant="filled"
             label="Password"
             required
-            name='password'
+            name="password"
             value={formValues.password}
             onChange={handleChange}
             placeholder="******"
-            inputProps={{ minLength: 6 }} 
+            inputProps={{ minLength: 6 }}
             disabled={props.authorizing}
           />
           <Link href="/register" underline="hover">
             Don't Have An Account?
           </Link>
-          <Button variant="outlined" type='submit' disabled={props.authorizing}>Login</Button>
+          <Button variant="outlined" type="submit" disabled={props.authorizing}>
+            Login
+          </Button>
         </form>
       </div>
     </div>
   );
 };
 
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     auth: state.authReducer.auth,
     authorizing: state.authReducer.authorizing,
     error: state.authReducer.error,
-  }
-}
+  };
+};
 
-
-
-export default connect(mapStateToProps, {loginUser})(Login);
+export default connect(mapStateToProps, { loginUser })(Login);

@@ -77,10 +77,6 @@ const useStyles = makeStyles({
       marginTop: "5%",
       marginBottom: "5%",
     },
-
-    "@media (max-width: 800px)": {
-      width: "100%",
-    },
   },
   navLinks: {
     display: "flex",
@@ -95,6 +91,8 @@ const useStyles = makeStyles({
 
       "@media (max-width: 800px)": {
         margin: "0 auto",
+        marginTop: "5%",
+        marginBottom: "5%",
       },
     },
 
