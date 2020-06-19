@@ -1,25 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import {
-  makeStyles,
-  Grid,
-  Card,
-  CardContent,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Fab,
-} from "@material-ui/core";
+import { makeStyles, Grid, Card, CardContent } from "@material-ui/core";
 import { axiosWithAuth } from "../helpers/axiosWithAuth";
-import AddIcon from "@material-ui/icons/Add";
-import { Link } from "react-router-dom";
-import NewNote from "./NewNote";
+import { Link, useHistory } from "react-router-dom";
 import { addNote } from "../actions/noteActions";
-import shortenText from "../helpers/shortenText";
+import NewNoteDialog from "./components/NewNoteDialog";
+import NoteCard from "./components/NoteCard";
+import NewNoteButton from "./components/NewNoteButton";
+import ViewNoteDialog from "./components/ViewNoteDialog";
 
 const useStyles = makeStyles({
   noteList: {
@@ -50,6 +38,8 @@ const useStyles = makeStyles({
 const NoteList = (props) => {
   const [notes, setNotes] = useState([]);
   const [newOpen, setNewOpen] = useState(false);
+  const [viewOpen, setViewOpen] = useState(false);
+  const [focusedNote, setFocusedNote] = useState(null);
   const [formValues, setFormValues] = useState({
     title: "",
     content: "",
@@ -99,27 +89,27 @@ const NoteList = (props) => {
     }
   };
 
-  // if(props.user === null) {
-  //     return <h1>Loading User Data.</h1>
-  // }
+  const handleFocus = (note) => {
+    console.log(note);
+    setFocusedNote(note);
+    setViewOpen(true);
+  };
 
   return (
     <div className={classes.noteList}>
       <>
-        <Dialog open={newOpen} onClose={handleNew} aria-labelledby="New Note">
-          <DialogTitle>New Note</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Put your ideas down! Begin by adding a meaningful title and some
-              content.
-            </DialogContentText>
-            <NewNote formValues={formValues} handleChange={handleChange} />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleNew}>Cancel</Button>
-            <Button onClick={handleSubmit}>Create</Button>
-          </DialogActions>
-        </Dialog>
+        <ViewNoteDialog
+          focusedNote={focusedNote}
+          viewOpen={viewOpen}
+          setViewOpen={setViewOpen}
+        />
+        <NewNoteDialog
+          newOpen={newOpen}
+          handleNew={handleNew}
+          formValues={formValues}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+        />
         {notes.length === 0 && (
           <h2
             style={{
@@ -132,60 +122,12 @@ const NoteList = (props) => {
             You don't have any notes yet, make some!
           </h2>
         )}
-        <Link onClick={handleNew} to="#">
-          <Card className={classes.card} className={classes.new}>
-            <CardContent>
-              <AddIcon style={{ color: "white" }} />
-            </CardContent>
-          </Card>
-        </Link>
+        <NewNoteButton classes={classes} handleNew={handleNew} />
       </>
       {notes.length === 0 ? null : (
         <Grid container spacing={3}>
           {notes.map((n) => (
-            <Grid
-              item
-              xs={12}
-              md={6}
-              lg={4}
-              className={classes.item}
-              key={n._id}
-            >
-              <Card className={classes.card}>
-                <CardContent>
-                  <h2
-                    style={{
-                      color: "white",
-                      fontSize: "1.5rem",
-                      marginBottom: "2%",
-                    }}
-                  >
-                    {n.title}
-                  </h2>
-                  <h2 style={{ color: "gray", fontSize: "1rem" }}>
-                    {n.createdAt}
-                  </h2>
-                  <p
-                    style={{
-                      fontSize: "0.9rem",
-                      marginTop: "5%",
-                      color: "white",
-                    }}
-                  >
-                    {shortenText(`${n.content}`)}
-                  </p>
-                  <Fab
-                    variant="extended"
-                    size="medium"
-                    aria-label="View"
-                    style={{ marginTop: "5%" }}
-                  >
-                    <VisibilityOutlinedIcon style={{ marginRight: "10%" }} />
-                    View
-                  </Fab>
-                </CardContent>
-              </Card>
-            </Grid>
+            <NoteCard classes={classes} n={n} handleView={handleFocus} />
           ))}
         </Grid>
       )}
