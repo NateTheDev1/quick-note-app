@@ -18,10 +18,19 @@ const useStyles = makeStyles({
     justifyContent: "space-around",
     background: "#36393F",
 
+    "@media (max-width: 700px)": {
+      textAlign: "center",
+    },
+
     "& h1": {
       color: "#00BFA6",
       fontWeight: 700,
       fontSize: "3rem",
+
+      "@media (max-width: 700px)": {
+        fontSize: "2rem",
+        overflowWrap: "break-word",
+      },
     },
 
     "& footer": {
@@ -41,7 +50,7 @@ const useStyles = makeStyles({
       },
 
       "@media (max-width: 800px)": {
-        flexDirection: "column",
+        display: "none",
       },
     },
   },
@@ -60,8 +69,7 @@ const useStyles = makeStyles({
       flexDirection: "column-reverse",
       textAlign: "center",
       "& img": {
-        marginTop: "5%",
-        marginBottom: "5%",
+        display: "none",
       },
     },
   },
@@ -76,6 +84,11 @@ const useStyles = makeStyles({
       lineHeight: 2,
       marginTop: "5%",
       marginBottom: "5%",
+    },
+
+    "@media (max-width: 700px)": {
+      padding: "1.25%",
+      width: "100%",
     },
   },
   navLinks: {
@@ -93,6 +106,7 @@ const useStyles = makeStyles({
         margin: "0 auto",
         marginTop: "5%",
         marginBottom: "5%",
+        width: "75%",
       },
     },
 
