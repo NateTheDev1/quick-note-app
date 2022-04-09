@@ -12,7 +12,7 @@
     "axios": "^0.19.2",
     "gsap": "^3.6.0",
     "jsonwebtoken": "^8.5.1",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-form-validator-core": "^0.7.0",
